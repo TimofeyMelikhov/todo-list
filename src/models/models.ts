@@ -1,10 +1,14 @@
 export interface IProps {
   title: string,
   tasks: Array<ITasks>
-  removeTask: Function
+  removeTask: (id: string) => void
+  changeFilter: (value: FilterValuesType) => void
+  addTask: (taskTitle: string) => void
 }
 export interface ITasks {
-  id: number,
+  id: string,
   titleTask: string,
   isDone: boolean
 }
+
+export type FilterValuesType = 'all' | 'completed' | 'active'
