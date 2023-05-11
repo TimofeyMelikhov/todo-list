@@ -4,6 +4,8 @@ export interface IProps {
   removeTask: (id: string) => void
   changeFilter: (value: FilterValuesType) => void
   addTask: (taskTitle: string) => void
+  changeStatus: (id: string, isDone: boolean) => void
+  filter: FilterValuesType
 }
 export interface ITasks {
   id: string,

@@ -1,30 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { IProps } from "../models/models";
 
-export function Todolist({ title, tasks, removeTask, changeFilter, addTask }: IProps) {
+export function Todolist({ 
+  title, 
+  tasks, 
+  removeTask, 
+  changeFilter, 
+  addTask, 
+  changeStatus,
+  filter
+}: IProps) {
 
   const [taskTitle, setTaskTitle] = useState<string>('')
+
+  const [error, setError] = useState<boolean | null>(null)
+
+  const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setTaskTitle(e.currentTarget.value)
+  }
+
+  const oneKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+    setError(false)
+    if (e.key === 'Enter') {
+      if (taskTitle.trim() !== '') {
+        addTask(taskTitle.trim())
+      } else {
+        setError(true)
+      }
+      setTaskTitle('')
+    }
+  }
+
+  const addNewTask = () => {
+    if (taskTitle.trim() !== '') {
+      addTask(taskTitle.trim())
+      setError(false)
+    } else {
+      setError(true)
+    }
+    setTaskTitle('')
+  }
 
   return (
     <div>
       <h3>{title}</h3>
       <div>
-        <input type="text" 
+        <input type="text"
+          className={error ? 'error' : ''}
           value={ taskTitle }
-          onChange={e => setTaskTitle(e.currentTarget.value)}
+          onChange={ onNewTitleChangeHandler }
+          onKeyPress={ oneKeyPressHandler }
         />
-        <button onClick={ () => {
-          addTask(taskTitle)
-          setTaskTitle('')
-          }}
+        <button onClick={ addNewTask }
         >+</button>
+        { error && <div className="error-message"> Напишите задачу </div> }
       </div>
       <ul>
         {tasks.map(({ id, isDone, titleTask }) => {
+
+          const onChangeHandlerStatus = (e: ChangeEvent<HTMLInputElement>) => {
+            changeStatus(id, e.currentTarget.checked)
+          }
+
           return (
-            <li key={id}>
+            <li key={id} className={isDone ? 'is-done' : ''}>
               <input type="checkbox" 
-                checked={isDone} 
+                checked={isDone}
+                onChange={onChangeHandlerStatus}
                 />
               <span>{titleTask}</span>
               <button onClick={ () => removeTask(id) }>x</button>
@@ -33,9 +75,9 @@ export function Todolist({ title, tasks, removeTask, changeFilter, addTask }: IP
         })}
       </ul>
       <div>
-        <button onClick={ () => changeFilter('all') }>All</button>
-        <button onClick={ () => changeFilter('active') }>Active</button>
-        <button onClick={ () => changeFilter('completed') }>Completed</button>
+        <button className={filter === 'all' ? 'active-filter' : ''} onClick={ () => changeFilter('all') }>All</button>
+        <button className={filter === 'active' ? 'active-filter' : ''} onClick={ () => changeFilter('active') }>Active</button>
+        <button className={filter === 'completed' ? 'active-filter' : ''} onClick={ () => changeFilter('completed') }>Completed</button>
       </div>
     </div>
   );
