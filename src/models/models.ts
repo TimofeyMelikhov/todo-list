@@ -1,12 +1,13 @@
 export interface IProps {
   id: string
-  title: string,
+  title: string
   tasks: Array<ITasks>
+  filter: FilterValuesType
   removeTask: (id: string, todolistId: string) => void
   changeFilter: (value: FilterValuesType, todolistId: string) => void
   addTask: (taskTitle: string, todolistId: string) => void
   changeStatus: (id: string, isDone: boolean, todolistId: string) => void
-  filter: FilterValuesType
+  removeTodolist: (todolistId: string) => void
 }
 export interface ITasks {
   id: string,

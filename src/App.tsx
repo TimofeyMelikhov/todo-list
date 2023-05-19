@@ -13,6 +13,13 @@ function App() {
     setTasks({...tasksObj})
   }
 
+  const removeTodolist = (todolistId: string) => {
+    let filteredTodolist = todolists.filter(tl => tl.id !== todolistId)
+    setTodolist(filteredTodolist)
+    delete tasksObj[todolistId]
+    setTasks({...tasksObj})
+  }
+
   const addTask = (taskTitle: string, todolistId:string) => {
     let task: ITasks = {
       id: v1(),
@@ -29,8 +36,8 @@ function App() {
     let todolist = todolists.find(todo => todo.id === todolistId)
     if (todolist) {
       todolist.filter = value
+      setTodolist([...todolists])
     }
-    setTodolist([...todolists])
   }
 
   const changeStatus = (id: string, isDone: boolean, todolistId: string) => {
@@ -85,7 +92,7 @@ function App() {
     [todolistId2]: [
       {
         id: v1(),
-        titleTask: "13 resons",
+        titleTask: "13 reasons",
         isDone: false
       },
       {
@@ -130,18 +137,19 @@ function App() {
             default: 
               break;
           }
-
+ 
           return (
             <Todolist
               key={item.id}
               id={item.id}
               title={item.title}
+              filter={item.filter}
               tasks={tasksForTodolist} 
               removeTask={removeTask}
               changeFilter={changeFilter}
               addTask={addTask}
               changeStatus={changeStatus}
-              filter={item.filter}
+              removeTodolist={removeTodolist}
             />
           )
         })

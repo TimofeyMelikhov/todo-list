@@ -5,11 +5,12 @@ export function Todolist({
   id,
   title, 
   tasks, 
+  filter,
   removeTask, 
   changeFilter, 
   addTask, 
   changeStatus,
-  filter
+  removeTodolist
 }: IProps) {
 
   const [taskTitle, setTaskTitle] = useState<string>('')
@@ -44,7 +45,10 @@ export function Todolist({
 
   return (
     <div>
-      <h3>{title}</h3>
+      <h3>
+        {title}
+        <button onClick={() => removeTodolist(id)}>x</button>
+      </h3>
       <div>
         <input type="text"
           className={error ? 'error' : ''}
@@ -57,20 +61,20 @@ export function Todolist({
         { error && <div className="error-message"> Напишите задачу </div> }
       </div>
       <ul>
-        {tasks.map(({ id, isDone, titleTask }) => {
+        {tasks.map((task) => {
 
           const onChangeHandlerStatus = (e: ChangeEvent<HTMLInputElement>) => {
-            changeStatus(id, e.currentTarget.checked, id)
+            changeStatus(task.id, e.currentTarget.checked, id)
           }
 
           return (
-            <li key={id} className={isDone ? 'is-done' : ''}>
+            <li key={task.id} className={task.isDone ? 'is-done' : ''}>
               <input type="checkbox" 
-                checked={isDone}
+                checked={task.isDone}
                 onChange={onChangeHandlerStatus}
                 />
-              <span>{titleTask}</span>
-              <button onClick={ () => removeTask(id, id) }>x</button>
+              <span>{task.titleTask}</span>
+              <button onClick={ () => removeTask(task.id, id) }>x</button>
             </li>
           );
         })}
