@@ -7,6 +7,8 @@ export interface IProps {
   changeFilter: (value: FilterValuesType, todolistId: string) => void
   addTask: (taskTitle: string, todolistId: string) => void
   changeStatus: (id: string, isDone: boolean, todolistId: string) => void
+  changeTitle: (id: string, newTitle: string, todolistId: string) => void
+  changeTodolistHeader: (id: string, newTitle: string) => void
   removeTodolist: (todolistId: string) => void
 }
 export interface ITasks {
@@ -18,7 +20,20 @@ export interface ITasks {
 export interface ITodoListType {
   id: string
   title: string,
-  filter: FilterValuesType
+  filter: FilterValuesType 
+}
+
+export interface IAddItemForm {
+  addItem: (taskTitle: string) => void
+}
+
+export interface IEditableSpan  {
+  titleTask: string
+  onChange: (newValue: string) => void
 }
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
+
+export type TasksStateType = {
+  [key: string]: ITasks[]
+}
