@@ -2,6 +2,8 @@ import React, { ChangeEvent} from "react";
 import { IProps } from "../models/models";
 import { AddItemForm } from "./AddItemForm";
 import { EditableSpan } from "./EditableSpan";
+import { Button, Checkbox, IconButton } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
 export function Todolist({
   id,
@@ -29,7 +31,9 @@ export function Todolist({
     <div>
       <h3>
         <EditableSpan titleTask={title} onChange={changeTodolistTitle} />
-        <button onClick={() => removeTodolist(id)}>x</button>
+        <IconButton aria-label="delete" onClick={() => removeTodolist(id)}>
+          <Delete />
+        </IconButton>
       </h3>
 
       <AddItemForm addItem={addTasks}/>
@@ -47,20 +51,39 @@ export function Todolist({
 
           return (
             <li key={task.id} className={task.isDone ? 'is-done' : ''}>
-              <input type="checkbox" 
+              <Checkbox  
                 checked={task.isDone}
                 onChange={onChangeHandlerStatus}
                 />
               <EditableSpan titleTask={task.titleTask} onChange={onChangeHandlerTitle} />
-              <button onClick={ () => removeTask(task.id, id) }>x</button>
+              <IconButton aria-label="delete" onClick={ () => removeTask(task.id, id) }>
+                <Delete />
+              </IconButton>
             </li>
           );
         })}
       </ul>
       <div>
-        <button className={filter === 'all' ? 'active-filter' : ''} onClick={ () => changeFilter('all', id) }>All</button>
-        <button className={filter === 'active' ? 'active-filter' : ''} onClick={ () => changeFilter('active', id) }>Active</button>
-        <button className={filter === 'completed' ? 'active-filter' : ''} onClick={ () => changeFilter('completed', id) }>Completed</button>
+        <Button 
+          variant={filter === 'all' ? 'contained' : 'text'} 
+          onClick={ () => changeFilter('all', id) }
+        >
+          All
+        </Button>
+        <Button 
+          color={"primary"} 
+          variant={filter === 'active' ? 'contained' : 'text'} 
+          onClick={ () => changeFilter('active', id) }
+          >
+            Active
+          </Button>
+        <Button 
+          color={"secondary"} 
+          variant={filter === 'completed' ? 'contained' : 'text'} 
+          onClick={ () => changeFilter('completed', id) }
+        >
+          Completed
+        </Button>
       </div>
     </div>
   );

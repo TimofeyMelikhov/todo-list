@@ -1,5 +1,7 @@
 import { useState, ChangeEvent, KeyboardEvent } from 'react'
 import { IAddItemForm } from '../models/models'
+import { Button, IconButton, TextField } from '@mui/material'
+import { ControlPoint } from '@mui/icons-material'
 
 export function AddItemForm (props: IAddItemForm) {
   const [taskTitle, setTaskTitle] = useState<string>('')
@@ -33,14 +35,21 @@ export function AddItemForm (props: IAddItemForm) {
 
   return (
     <div>
-    <input type="text"
-      className={error ? 'error' : ''}
+    <TextField type="text"
+      error={!!error}
+      helperText={error}
       value={ taskTitle }
       onChange={ onNewTitleChangeHandler }
       onKeyPress={ oneKeyPressHandler }
+      label="Add new item" 
+      variant="standard"
     />
-    <button onClick={ addNewTask }
-    >+</button>
+    <IconButton 
+      onClick={ addNewTask }
+      color={'primary'}
+    >
+      <ControlPoint/>
+    </IconButton>
     { error && <div className="error-message"> Напишите задачу </div> }
   </div>
   )
