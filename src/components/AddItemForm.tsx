@@ -42,7 +42,7 @@ export function AddItemForm(props: IAddItemForm) {
 				helperText={error}
 				value={taskTitle}
 				onChange={onNewTitleChangeHandler}
-				onKeyPress={oneKeyPressHandler}
+				onKeyDown={oneKeyPressHandler}
 				label='Add new item'
 				variant='standard'
 			/>

@@ -3,17 +3,17 @@ import { ChangeEvent, useState } from 'react'
 
 import { IEditableSpan } from '../models/models'
 
-export function EditableSpan(props: IEditableSpan) {
+export function EditableSpan({ titleTask, onChange }: IEditableSpan) {
 	let [editMode, setEditMode] = useState<boolean>(false)
 	let [title, setTitle] = useState<string>('')
 
 	const activateEditMode = (): void => {
 		setEditMode(true)
-		setTitle(props.titleTask)
+		setTitle(titleTask)
 	}
 	const activateViewMode = (): void => {
 		setEditMode(false)
-		props.onChange(title)
+		onChange(title)
 	}
 
 	const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -28,6 +28,6 @@ export function EditableSpan(props: IEditableSpan) {
 			variant='standard'
 		/>
 	) : (
-		<span onDoubleClick={activateEditMode}>{props.titleTask}</span>
+		<span onDoubleClick={activateEditMode}>{titleTask}</span>
 	)
 }
