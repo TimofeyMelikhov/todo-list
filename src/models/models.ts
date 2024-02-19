@@ -38,37 +38,72 @@ export type TasksStateType = {
 	[key: string]: ITasks[]
 }
 
-export enum Reducers {
+export enum ReducersForTodo {
 	REMOVE_TODOLIST = 'REMOVE_TODOLIST',
 	ADD_TODOLIST = 'ADD_TODOLIST',
+	CHANGE_TODO_TITLE = 'CHANGE_TODO_TITLE',
+	CHANGE_TODO_FILTER = 'CHANGE_TODO_FILTER'
+}
+export enum ReducersForTask {
 	REMOVE_TASK = 'REMOVE_TASK',
 	ADD_TASK = 'ADD_TASK',
 	CHANGE_TASK_TITLE = 'CHANGE_TASK_TITLE',
-	CHANGE_TODO_TITLE = 'CHANGE_TODO_TITLE',
 	CHANGE_TASK_STATUS = 'CHANGE_TASK_STATUS'
 }
 
-type RemoveTodolistActionType = {
-	type: Reducers.REMOVE_TODOLIST
+export type RemoveTodolistActionType = {
+	type: ReducersForTodo.REMOVE_TODOLIST
 	id: string
 }
-type AddTodolistActionType = {
-	type: Reducers.ADD_TODOLIST
+export type AddTodolistActionType = {
+	type: ReducersForTodo.ADD_TODOLIST
 	title: string
 }
-type ChangeTitleTodolistActionType = {
-	type: Reducers.CHANGE_TODO_TITLE
+export type ChangeTitleTodolistActionType = {
+	type: ReducersForTodo.CHANGE_TODO_TITLE
 	title: string
 	id: string
 }
-type ChangeFilterTodolistActionType = {
-	type: Reducers.CHANGE_TASK_STATUS
+export type ChangeFilterTodolistActionType = {
+	type: ReducersForTodo.CHANGE_TODO_FILTER
 	id: string
-	filter: string
+	filter: FilterValuesType
 }
 
-export type ActionsType =
+export type ActionsTypeTodo =
 	| RemoveTodolistActionType
 	| AddTodolistActionType
 	| ChangeTitleTodolistActionType
 	| ChangeFilterTodolistActionType
+
+export type removeTaskActionType = {
+	type: ReducersForTask.REMOVE_TASK
+	todolistId: string
+	taskId: string
+}
+
+export type AddTaskActionType = {
+	type: ReducersForTask.ADD_TASK
+	title: string
+	todolistId: string
+}
+
+export type ChangeTaskStatusActionType = {
+	type: ReducersForTask.CHANGE_TASK_STATUS
+	todolistId: string
+	taskId: string
+	isDone: boolean
+}
+
+export type ChangeTaskTitleActionType = {
+	type: ReducersForTask.CHANGE_TASK_TITLE
+	todolistId: string
+	taskId: string
+	title: string
+}
+
+export type ActionTypeTask =
+	| removeTaskActionType
+	| AddTaskActionType
+	| ChangeTaskStatusActionType
+	| ChangeTaskTitleActionType

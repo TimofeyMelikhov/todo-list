@@ -1,16 +1,25 @@
 import { v1 } from 'uuid'
 
-import { ActionsType, ITodoListType, Reducers } from '../models/models'
+import {
+	ActionsTypeTodo,
+	AddTodolistActionType,
+	ChangeFilterTodolistActionType,
+	ChangeTitleTodolistActionType,
+	FilterValuesType,
+	ITodoListType,
+	ReducersForTodo,
+	RemoveTodolistActionType
+} from '../models/models'
 
 export const todolistsReducer = (
 	state: ITodoListType[],
-	action: ActionsType
+	action: ActionsTypeTodo
 ): ITodoListType[] => {
 	switch (action.type) {
-		case Reducers.REMOVE_TODOLIST: {
+		case ReducersForTodo.REMOVE_TODOLIST: {
 			return state.filter(tl => tl.id !== action.id)
 		}
-		case Reducers.ADD_TODOLIST: {
+		case ReducersForTodo.ADD_TODOLIST: {
 			return [
 				...state,
 				{
@@ -20,7 +29,7 @@ export const todolistsReducer = (
 				}
 			]
 		}
-		case Reducers.CHANGE_TODO_TITLE: {
+		case ReducersForTodo.CHANGE_TODO_TITLE: {
 			const todolist = state.find(tl => tl.id === action.id)
 
 			if (todolist) {
@@ -29,7 +38,7 @@ export const todolistsReducer = (
 
 			return [...state]
 		}
-		case Reducers.CHANGE_TASK_STATUS: {
+		case ReducersForTodo.CHANGE_TODO_FILTER: {
 			const todolist = state.find(tl => tl.id === action.id)
 
 			if (todolist) {
@@ -41,4 +50,28 @@ export const todolistsReducer = (
 		default:
 			throw new Error('Error')
 	}
+}
+
+export const removeTodolistAC = (
+	todolistId: string
+): RemoveTodolistActionType => {
+	return { type: ReducersForTodo.REMOVE_TODOLIST, id: todolistId }
+}
+
+export const addTodolistAC = (title: string): AddTodolistActionType => {
+	return { type: ReducersForTodo.ADD_TODOLIST, title }
+}
+
+export const changeTitleTodolistAC = (
+	title: string,
+	todolistId: string
+): ChangeTitleTodolistActionType => {
+	return { type: ReducersForTodo.CHANGE_TODO_TITLE, title, id: todolistId }
+}
+
+export const changeFilterTodolistAC = (
+	filter: FilterValuesType,
+	todolistId: string
+): ChangeFilterTodolistActionType => {
+	return { type: ReducersForTodo.CHANGE_TODO_FILTER, filter, id: todolistId }
 }
