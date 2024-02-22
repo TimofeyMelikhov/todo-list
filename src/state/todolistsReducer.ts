@@ -23,7 +23,7 @@ export const todolistsReducer = (
 			return [
 				...state,
 				{
-					id: v1(),
+					id: action.todolistId,
 					title: action.title,
 					filter: 'all'
 				}
@@ -59,7 +59,7 @@ export const removeTodolistAC = (
 }
 
 export const addTodolistAC = (title: string): AddTodolistActionType => {
-	return { type: ReducersForTodo.ADD_TODOLIST, title }
+	return { type: ReducersForTodo.ADD_TODOLIST, title, todolistId: v1() }
 }
 
 export const changeTitleTodolistAC = (

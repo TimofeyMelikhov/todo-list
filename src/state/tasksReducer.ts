@@ -61,10 +61,11 @@ export const tasksReducer = (
 			}
 		}
 		case ReducersForTodo.ADD_TODOLIST: {
+			return { ...state, [action.todolistId]: [] }
+		}
+		case ReducersForTodo.REMOVE_TODOLIST: {
 			const stateCopy = { ...state }
-
-			stateCopy[v1()] = []
-
+			delete stateCopy[action.id]
 			return stateCopy
 		}
 		default:

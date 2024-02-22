@@ -58,6 +58,7 @@ export type RemoveTodolistActionType = {
 export type AddTodolistActionType = {
 	type: ReducersForTodo.ADD_TODOLIST
 	title: string
+	todolistId: string
 }
 export type ChangeTitleTodolistActionType = {
 	type: ReducersForTodo.CHANGE_TODO_TITLE
@@ -108,3 +109,4 @@ export type ActionTypeTask =
 	| ChangeTaskStatusActionType
 	| ChangeTaskTitleActionType
 	| AddTodolistActionType
+	| RemoveTodolistActionType
