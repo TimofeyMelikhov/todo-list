@@ -84,7 +84,7 @@ export type removeTaskActionType = {
 
 export type AddTaskActionType = {
 	type: ReducersForTask.ADD_TASK
-	title: string
+	taskTitle: string
 	todolistId: string
 }
 
@@ -99,7 +99,7 @@ export type ChangeTaskTitleActionType = {
 	type: ReducersForTask.CHANGE_TASK_TITLE
 	todolistId: string
 	taskId: string
-	title: string
+	taskTitle: string
 }
 
 export type ActionTypeTask =
@@ -107,3 +107,4 @@ export type ActionTypeTask =
 	| AddTaskActionType
 	| ChangeTaskStatusActionType
 	| ChangeTaskTitleActionType
+	| AddTodolistActionType
