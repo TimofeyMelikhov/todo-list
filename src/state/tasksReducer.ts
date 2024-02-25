@@ -12,8 +12,59 @@ import {
 	removeTaskActionType
 } from '../models/models'
 
+import { todolistId1, todolistId2, todolistId3 } from './todolistsReducer'
+
+const initialState: TasksStateType = {
+	[todolistId1]: [
+		{
+			id: v1(),
+			titleTask: 'CSS&HTML',
+			isDone: true
+		},
+		{
+			id: v1(),
+			titleTask: 'JS',
+			isDone: true
+		},
+		{
+			id: v1(),
+			titleTask: 'React',
+			isDone: false
+		}
+	],
+	[todolistId2]: [
+		{
+			id: v1(),
+			titleTask: '13 reasons',
+			isDone: false
+		},
+		{
+			id: v1(),
+			titleTask: 'Dark',
+			isDone: false
+		}
+	],
+	[todolistId3]: [
+		{
+			id: v1(),
+			titleTask: 'Witcher 3',
+			isDone: true
+		},
+		{
+			id: v1(),
+			titleTask: 'Fallout 76',
+			isDone: true
+		},
+		{
+			id: v1(),
+			titleTask: 'Dota 2',
+			isDone: true
+		}
+	]
+}
+
 export const tasksReducer = (
-	state: TasksStateType,
+	state: TasksStateType = initialState,
 	action: ActionTypeTask
 ): TasksStateType => {
 	switch (action.type) {

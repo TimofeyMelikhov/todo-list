@@ -1,8 +1,17 @@
 import { Delete } from '@mui/icons-material'
 import { Button, Checkbox, IconButton } from '@mui/material'
 import { ChangeEvent } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { IProps } from '../models/models'
+import { IProps, ITasks } from '../models/models'
+import { AppRootState } from '../state/store'
+import {
+	addNewTaskAC,
+	changeTaskStatusAC,
+	changeTaskTitleAC,
+	removeTaskAC
+} from '../state/tasksReducer'
 
 import { AddItemForm } from './AddItemForm'
 import { EditableSpan } from './EditableSpan'
@@ -10,22 +19,28 @@ import { EditableSpan } from './EditableSpan'
 export function Todolist({
 	id,
 	title,
-	tasks,
 	filter,
-	removeTask,
 	changeFilter,
-	addTask,
-	changeStatus,
 	removeTodolist,
-	changeTitle,
 	changeTodolistHeader
 }: IProps) {
-	const addTasks = (title: string) => {
-		addTask(title, id)
-	}
+	const dispatch = useDispatch()
+	const tasks = useSelector<AppRootState, ITasks[]>(state => state.tasks[id])
 
 	const changeTodolistTitle = (newTitle: string) => {
 		changeTodolistHeader(id, newTitle)
+	}
+
+	let tasksForTodolist = tasks
+	switch (filter) {
+		case 'completed':
+			tasksForTodolist = tasksForTodolist.filter(task => task.isDone === true)
+			break
+		case 'active':
+			tasksForTodolist = tasksForTodolist.filter(task => task.isDone === false)
+			break
+		default:
+			break
 	}
 
 	return (
@@ -37,16 +52,16 @@ export function Todolist({
 				</IconButton>
 			</h3>
 
-			<AddItemForm addItem={addTasks} />
+			<AddItemForm addItem={title => dispatch(addNewTaskAC(title, id))} />
 
 			<div>
-				{tasks.map(task => {
+				{tasksForTodolist?.map(task => {
 					const onChangeHandlerStatus = (e: ChangeEvent<HTMLInputElement>) => {
-						changeStatus(task.id, e.currentTarget.checked, id)
+						dispatch(changeTaskStatusAC(id, task.id, e.currentTarget.checked))
 					}
 
-					const onChangeHandlerTitle = (newValue: string) => {
-						changeTitle(task.id, newValue, id)
+					const onChangeHandlerTaskTitle = (newValue: string) => {
+						dispatch(changeTaskTitleAC(id, task.id, newValue))
 					}
 
 					return (
@@ -57,11 +72,11 @@ export function Todolist({
 							/>
 							<EditableSpan
 								titleTask={task.titleTask}
-								onChange={onChangeHandlerTitle}
+								onChange={onChangeHandlerTaskTitle}
 							/>
 							<IconButton
 								aria-label='delete'
-								onClick={() => removeTask(task.id, id)}
+								onClick={() => dispatch(removeTaskAC(id, task.id))}
 							>
 								<Delete />
 							</IconButton>

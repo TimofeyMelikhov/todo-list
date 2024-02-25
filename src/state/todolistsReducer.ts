@@ -11,8 +11,30 @@ import {
 	RemoveTodolistActionType
 } from '../models/models'
 
+export let todolistId1 = v1()
+export let todolistId2 = v1()
+export let todolistId3 = v1()
+
+const initialState: ITodoListType[] = [
+	{
+		id: todolistId1,
+		title: 'What to learn',
+		filter: 'all'
+	},
+	{
+		id: todolistId2,
+		title: 'What to watch',
+		filter: 'active'
+	},
+	{
+		id: todolistId3,
+		title: 'What to game',
+		filter: 'all'
+	}
+]
+
 export const todolistsReducer = (
-	state: ITodoListType[],
+	state: ITodoListType[] = initialState,
 	action: ActionsTypeTodo
 ): ITodoListType[] => {
 	switch (action.type) {
@@ -21,12 +43,12 @@ export const todolistsReducer = (
 		}
 		case ReducersForTodo.ADD_TODOLIST: {
 			return [
-				...state,
 				{
 					id: action.todolistId,
 					title: action.title,
 					filter: 'all'
-				}
+				},
+				...state
 			]
 		}
 		case ReducersForTodo.CHANGE_TODO_TITLE: {
@@ -48,7 +70,7 @@ export const todolistsReducer = (
 		}
 
 		default:
-			throw new Error('Error')
+			return state
 	}
 }
 
